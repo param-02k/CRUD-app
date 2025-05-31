@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Register form...!!</h1>
+
+    <form>
+        <label for="username">Username :</label>
+        <input id="username" type="text" name="username">
+
+        <label for="password">Password :</label>
+        <input id="password" type="text" name="password">
+
+        <input type="submit">
+    
+    </form>
+
+    <script>
+
+        const button = document.querySelectorAll('input')[2]
+
+        button.addEventListener('click', async(e)=>{
+            e.preventDefault()
+            const username = document.querySelectorAll('input')[0].value
+            const password = document.querySelectorAll('input')[1].value
+            const registerdata = {
+                username,
+                password
+            }
+
+            await fetch('http://127.0.0.1:5000/registerdata',{
+                method: 'POST', // or 'PUT', 'DELETE'
+                headers: {
+                'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify(registerdata)
+            })
+            .then((res)=>{
+                console.log("reached here...");
+                console.log(res);
+                
+                return res.json()
+            })
+            .then((res) => {
+                console.log("reached 2nd .then", res);
+                
+                if(res.statuscode == 200){
+                    window.location.href = "logindata.html"
+                }   
+            })
+            .catch((err)=>{
+                console.error(err);
+            })
+        })
+
+    </script>
+</body>
+</html>

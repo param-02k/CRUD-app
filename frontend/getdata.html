@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="uName"></h1>
+    <h1 id="Pass"></h1>
+
+    <input id="logOut" type="submit" value="logout">
+
+<script>
+    window.onload = async function() {
+        
+        await fetch('http://127.0.0.1:5000/getuserdata',{
+            method : "get",
+            credentials : "include"
+        })
+        .then((res)=>{
+            
+            return res.json()
+        })
+        .then((res) => {
+            let {uname, pass} = res.data
+            
+            document.getElementById("uName").innerHTML = uname
+            document.getElementById("Pass").innerHTML = pass
+        })
+        .catch((err) => {
+            console.error(err);
+            
+        })
+    }
+
+    const button = document.getElementById("logOut")
+
+    button.addEventListener('click', async (e)=>{
+        console.log("button clicked");
+        e.preventDefault()
+        
+        await fetch("http://127.0.0.1:5000/logout",{
+            method : "get",
+            credentials : "include"
+        })
+        .then((res)=>{
+            console.log("i am here..")
+            return res.json()
+        })
+        .then((res)=>{
+console.log(res);
+
+        
+            if(res.statuscode == 200){
+                window.location.href ="registerdata.html"
+            }
+        })
+        .catch((err)=> {
+            console.error(err);
+            
+        })
+    })
+
+</script>
+
+</body>
+</html>

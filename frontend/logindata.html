@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login page...!!</h1>
+
+    <label for="username">Username :</label>
+    <input id="username" type="text" name = "username">
+
+    <label for="password">Password :</label>
+    <input id="password" type="text" name = "password">
+
+    <input type="submit">
+
+        <script>
+
+        const button = document.querySelectorAll('input')[2]
+
+        button.addEventListener('click', async(e)=>{
+            e.preventDefault()
+            const username = document.querySelectorAll('input')[0].value
+            const password = document.querySelectorAll('input')[1].value
+            const logindata = {
+                username,
+                password
+            }
+
+            await fetch('http://127.0.0.1:5000/logindata',{
+                method: 'POST', // or 'PUT', 'DELETE'
+                headers: {
+                'Content-Type': 'application/json'
+                 },
+                 credentials: "include",            // to send the credentials to backend
+                 body: JSON.stringify(logindata)
+            })
+            .then((res)=>{
+                return res.json()
+            })
+              .then((res) => {
+                console.log(res);
+                
+                if(res.statuscode == 200){
+                    alert(res.message)
+                    window.location.href ="getdata.html"
+                }
+            })
+            .catch((err)=>{
+                console.error(err);
+            })
+        })
+
+    </script>
+</body>
+</html>
